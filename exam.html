@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>웹 시험 체험 | 줄연결암기</title>
+
+  <style>
+    body {
+      font-family: system-ui, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+      margin: 24px;
+      max-width: 800px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border: 1px solid #222;
+      border-radius: 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border: 1px solid #222;
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 24px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 16px;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #1565c0;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>웹 시험 체험</h1>
+
+<p class="desc">
+단어와 뜻을 입력하면 줄연결 시험 형태로 변환됩니다.<br>
+(현재 페이지는 심사용 데모입니다.)
+</p>
+
+<textarea id="input">
+apple - 사과
+banana - 바나나
+grape - 포도
+</textarea>
+
+<br>
+<button onclick="generate()">시험지 생성</button>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<div class="footer">
+  <a href="./index.html">홈으로</a> |
+  <a href="./plan.html">플랜 안내</a> |
+  <a href="./document/refund.html">환불·취소·이용해지</a>
+</div>
+
+<script>
+function generate(){
+  const input = document.getElementById("input").value.trim();
+  const lines = input.split("\n");
+
+  let left = [];
+  let right = [];
+
+  lines.forEach(line => {
+    const parts = line.split("-");
+    if(parts.length === 2){
+      left.push(parts[0].trim());
+      right.push(parts[1].trim());
+    }
+  });
+
+  // 랜덤 섞기
+  right.sort(() => Math.random() - 0.5);
+
+  let html = "<b>왼쪽</b><br>";
+  left.forEach((v, i) => {
+    html += (i+1) + ". " + v + "<br>";
+  });
+
+  html += "<br><b>오른쪽</b><br>";
+  right.forEach((v, i) => {
+    html += String.fromCharCode(65+i) + ". " + v + "<br>";
+  });
+
+  document.getElementById("result").innerHTML = html;
+  document.getElementById("result").style.display = "block";
+}
+</script>
+
+</body>
+</html>
